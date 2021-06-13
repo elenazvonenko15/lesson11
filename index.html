@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script>
+
+		const toDoList = {
+			tasks: [
+				{
+					name: 'task 1',
+					text: 'text 1',
+					complete: false 
+				},
+				{
+					name: 'task 2',
+					text: 'text 2',
+					complete: false 
+				},
+				{
+					name: 'task 3',
+					text: 'text 3',
+					complete: true
+				},
+				{
+					name: 'task 4',
+					text: 'text 4',
+					complete: true 
+				}
+			],
+
+			addTask(name, text) {
+				const sameName = this.tasks.find(item => item.name === name);
+				const sameText = this.tasks.find(item => item.text === text);
+				
+				if(!sameName && !sameText) {
+					const newTask = {
+						name,
+						text,
+						complete: false 
+					}
+					this.tasks.push(newTask);
+				}
+	
+				return this.tasks;
+			},
+
+			deleteTask(taskName) {
+				const taskIndex = this.tasks.findIndex(item => item.name === taskName);
+				
+				if(taskIndex === -1) return;
+				
+				this.tasks.splice(taskIndex, 1)
+				
+				return this.tasks;
+			},
+
+			editTask(taskName, {name, text}){
+				const currentTaskIndex = this.tasks.findIndex(item => item.name === taskName);
+				
+				if(currentTaskIndex === -1) return;
+
+				const currentTask = this.tasks[currentTaskIndex];
+
+				currentTask.name !== name ? currentTask.name = name : null;
+				currentTask.text !== text ? currentTask.text = text : null;
+
+				return this.tasks
+			},
+
+			getStatistic() {
+				const statistic = {
+					allTasks: this.tasks.length,
+					completedTasks: this.tasks.filter(item => item.complete).length
+				}
+
+				statistic.uncompletedTasks = statistic.allTasks - statistic.completedTasks;
+
+				return statistic;
+			}
+		}
+
+		const editedTask = {
+			name: 'task 1',
+			text: 'changed text'
+		}
+		
+		console.log(toDoList.addTask('some name', 'task description'));
+		console.log(toDoList.deleteTask('task 2'));
+		console.log(toDoList.editTask('task 1', editedTask));
+		console.log(toDoList.getStatistic())
+
+	</script>
+</body>
+</html>
